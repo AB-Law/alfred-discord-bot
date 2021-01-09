@@ -3,8 +3,8 @@ import os
 
 client = discord.Client()
 
-token = ''
-name = 'Alfred'
+token = ''  # Enter your token id here
+name = 'Alfred'  # Name of the bot
 
 
 @client.event
