@@ -7,6 +7,8 @@ from google_trans_new import google_translator
 
 
 bot = Bot(command_prefix='?')
+translator = google_translator()  
+
 TOKEN = ''  # Enter your bot token here
 
 
