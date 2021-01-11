@@ -2,6 +2,9 @@ import discord
 import os
 from discord.ext.commands import Bot
 from discord.ext.commands import has_permissions
+import requests
+from google_trans_new import google_translator
+
 
 bot = Bot(command_prefix='?')
 TOKEN = ''  # Enter your bot token here
@@ -22,6 +25,30 @@ async def on_message(message):
     if 'happy birthday' in message.content.lower():
         await message.channel.send('Happy Birthday! 🎈🎉')
     await bot.process_commands(message)
+
+@bot.command(name='translate')
+async def lang(ctx,arg1,*,text):
+    try:
+        user = ctx.author.mention
+        message = ctx.message
+        final = translator.translate(text, lang_tgt=arg1)
+        await message.delete()
+        await ctx.send(user +': '+final)
+    except:
+        await ctx.send('Error in syntax (translate <language eg: en/fr>, text)')
+
+@bot.command(aliases = ['feline','cat','cats'])
+async def ca(ctx):
+    response = requests.get('https://aws.random.cat/meow')
+    data = response.json()
+    embed = discord.Embed(
+        title = 'Kitty Cat 🐈',
+        description = 'Cats :star_struck:',
+        colour = discord.Colour.purple()
+        )
+    embed.set_image(url=data['file'])            
+    embed.set_footer(text="")
+    await ctx.send(embed=embed)
 
 
 @bot.command(name='say')
