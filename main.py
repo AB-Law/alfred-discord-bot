@@ -13,6 +13,24 @@ async def on_ready():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="At your service, Master A Law#7777"))
 
 
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+    if message.author.bot:
+        return
+    if 'happy birthday' in message.content.lower():
+        await message.channel.send('Happy Birthday! 🎈🎉')
+    await bot.process_commands(message)
+
+
+@bot.command(name='say')
+async def say(ctx, *, text):
+    message = ctx.message
+    await message.delete()
+    await ctx.send(f"{text}")
+
+
 @bot.command(name='server')
 async def fetchServerInfo(context):
     guild = context.guild
@@ -42,11 +60,11 @@ async def args(ctx, arg1=None, arg2=None):
             arg2 = 1
         if arg1 == None:
             arg1 = ctx.author.mention
-        if arg1 == ctx.guild.owner and ctx.author.mention != ctx.guild.owner:
+        if arg1 == ctx.guild.ownerID and ctx.author.mention != ctx.guild.ownerID:
             for x in range(int(arg2)):
                 await ctx.send(ctx.author.mention)
         else:
-            if int(arg2) > 5 and ctx.author.mention != ctx.guild.owner:
+            if int(arg2) > 5 and ctx.author.mention != ctx.guild.ownerID:
                 arg2 = 10
                 for x in range(int(arg2)):
                     await ctx.send(ctx.author.mention)
