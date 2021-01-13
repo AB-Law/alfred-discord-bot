@@ -60,6 +60,10 @@ async def say(ctx, *, text):
     await ctx.send(f"{text}")
 
 
+@bot.command(name = 'nick', pass_context=True)
+async def chnick(ctx, member: discord.Member, *,nick):
+    await member.edit(nick=nick)
+
 @bot.command(name='server')
 async def fetchServerInfo(context):
     guild = context.guild
