@@ -4,6 +4,7 @@ from discord.ext.commands import Bot
 from discord.ext.commands import has_permissions
 import requests
 from google_trans_new import google_translator
+import asyncio
 
 
 bot = Bot(command_prefix='?')
@@ -39,6 +40,41 @@ async def lang(ctx, arg1, *, text):
         await ctx.send(user + ': '+final)
     except:
         await ctx.send('Error in syntax (translate <language eg: en/fr>, text)')
+
+
+@bot.command(case_insensitive=True, aliases=["remind", "remindme", "remind_me"])
+async def reminder(ctx, time, *, reminder=None):
+    user = ctx.message.author.id
+    seconds = 0
+    if reminder is None:
+        # Error message
+        await ctx.send("Please enter something to be reminded about")
+    if time.lower().endswith("d"):
+        seconds += int(time[:-1]) * 60 * 60 * 24
+        counter = f"{seconds // 60 // 60 // 24} day(s)"
+    if time.lower().endswith("h"):
+        seconds += int(time[:-1]) * 60 * 60
+        counter = f"{seconds // 60 // 60} hour(s)"
+    elif time.lower().endswith("m"):
+        seconds += int(time[:-1]) * 60
+        counter = f"{seconds // 60} minute(s)"
+    elif time.lower().endswith("s"):
+        seconds += int(time[:-1])
+        counter = f"{seconds} seconds"
+    if seconds <= 0:
+        await ctx.send("Please enter a valid amount of time")
+    else:
+        await ctx.send("Alright, " + '<@'+str(user)+'>' + f", I will remind you about {reminder} in {counter}.")
+        await asyncio.sleep(seconds)
+        await ctx.send('<@'+str(user)+'>' + f" you asked me to remind you about {reminder} {counter} ago.")
+        return
+
+
+@bot.command()
+async def timer(ctx, arg1):
+    await ctx.send("Timer for {} seconds has been set".format(arg1))
+    await asyncio.sleep(int(arg1))
+    await ctx.send("{} seconds have passed".format(arg1))
 
 
 @bot.command(aliases=['feline', 'cat', 'cats'])
