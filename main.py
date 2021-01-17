@@ -5,7 +5,10 @@ from discord.ext.commands import has_permissions
 import requests
 from google_trans_new import google_translator
 import asyncio
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
 bot = Bot(command_prefix='?')
 translator = google_translator()
