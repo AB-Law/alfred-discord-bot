@@ -148,14 +148,6 @@ async def args(ctx, arg1=None, arg2=None):
                     await ctx.send('Pinging {}'.format(arg1))
     except:
         print('hi')
-
-@bot.command(pass_context=True, case_insensitive=True, aliases = [role, add_role])
-@has_permissions(administrator=True)
-async def addrole(ctx, arg1=discord.Member, arg2=discord.Role):
-    try:
-                await arg1.add_roles(arg2)
-                await ctx.send("Role {} is assigned to {}".format(arg2,arg1.mention))
-    except:
-        await ctx.send("Sytax error (addrole @member @role)")
+        
 
 bot.run(TOKEN)
